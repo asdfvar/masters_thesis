@@ -1,0 +1,597 @@
+One of the disadvantages of the BGK and the ES-BGK models is that all moments relax toward the equilibrium with the same rate. At the same time, in the solutions to the Boltzmann equation the relaxation rates are different for different moments. As a result, the profiles of density and temperature calculated from these models often have considerable distinctions from the experimentally measured profiles and from profiles calculated from the solutions to the full Boltzmann equation. As can be seen in figure \ref{figShock}, the ES-BGK model predicts the reciprocal thickness closer to the experimentally measured one as compared to the one predicted from the BGK model but is still off by a considerable amount. In this chapter, we seek to develop a collision model for the BGK equation that is dependent on velocity and enforces the correct relaxation rates of higher order moments. We recall that the BGK equation conserves the first three moments. In this new model, this conservation property will still be enforced. In addition, however, correct relaxation rates of high order moments will be determined by evaluating the Boltzmann collision operator. The velocity dependent collision frequency will be determined from the  condition that mass momentum and energy are conserved and also that some selected moments relax to their equilibrium values at the rates given by the Boltzmann equation.
+
+For simplicity, we consider the spatially homogeneous problem. Specifically, we assume that $\partial_x f=0$ and arrive at the model equation
+%
+\begin{equation}
+\label{EqCh5}
+\partial_t f = \nu(\vec{u}) (f_M - f)
+\end{equation}
+%
+where $f_M$ is the Maxwellian distribution. We note that expressions for the collision frequency $\nu$ can be found in \cite{mie} and in the next section.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The Velocity-Dependent Collision Frequency Model}
+We will consider a collection of polynomials $\psi_{i}(\vec{\tilde{u}})$.
+%
+\begin{gather*}
+\psi_{0}(\vec{u}) =1,\quad \psi_{1}(\vec{u})=\tilde{u}_1,\quad \psi_{2}(\vec{u})=\tilde{u}_2,\quad \psi_{3}(\vec{u})=\tilde{u}_3 \\
+\psi_{4}(\vec{u}) = ||\vec{\tilde{u}}||^2,\quad \\
+\psi_{5}(\vec{u}) = \frac{1}{2}(5 \tilde{u}_1^3 - 3 \tilde{u}_1),\quad
+\psi_{6}(\vec{u}) = \frac{1}{8}(35 \tilde{u}_1^4 - 30 \tilde{u}_1^2 + 3)
+\end{gather*}
+%
+where $\psi_0,\psi_1,\psi_2,\psi_3,\psi_5$ and $\psi_6$ are the Legendre polynomials, $\psi_4$ is the temperature and $\vec{\tilde{u}} = \vec{u}-\vec{\bar{u}}$ is the peculiar velocity. We remark that these polynomials should allow us to control the first five moments and the relaxation of the directional temperatures. We seek the collision frequency in the form
+%
+\begin{equation*}
+\nu(\vec{u}) = \sum_{i=1}^6 c_{i}\psi_{i}(\vec{u}).
+\end{equation*}
+%
+One of the conditions that needs to be satisfied by any model is that mass, momentum and energy are conserved. In the case when the collision frequency does not depend on velocity, this property is automatic. However, in the case of the velocity-dependent collision frequency, the conservation conditions help to determine five out of the six coefficients. The additional condition to close the system will come from enforcing the relaxation rate on the directional temperature. To introduce the approach, consider the  spatially homogeneous case of the model equation
+%
+\begin{equation*}
+\partial_{t} f(\vec{u},t)= \nu(\vec{u})(f_M(\vec{u})-f(\vec{u},t)).
+\end{equation*}
+%
+Substituting the representation of $\nu(\vec{u})$ we have
+%
+\begin{equation*}
+\partial_{t} f(\vec{u},t) = \Big( \sum_{i=1}^6 c_{i}\psi_{i}(\vec{u})\Big) (f_M(\vec{u})-f(\vec{u},t))
+\end{equation*}
+%
+Let $\phi(\vec{u})$ be some polynomial. We recall that the moment $f_{\phi}$ of the $f$ with respect to $\phi$ is 
+%
+\begin{equation*}
+f_{\phi}=\int_{R^3} f(\vec{u})\phi(\vec{u})\, d\vec{u}
+\end{equation*}
+%
+We notice that the model equation implies the equation for the evolution of the moments. To derive that equation, we simply multiply the model equation by $\phi(\vec{u})$ and integrate over $R^3$ in $u_1$, $u_2$, and $u_3$. We obtain:
+%
+\begin{equation*}
+\int_{R^3}\partial_{t} f(\vec{u},t)\phi(\vec{u})\, d\vec{u} = 
+\int_{R^3}\Big( \sum_{i} c_{i}\psi_{i}(\vec{u})\Big) (f_M(\vec{u})-f(\vec{u},t))\phi(\vec{u})\, d\vec{u}
+\end{equation*}
+%
+This simplifies into 
+%
+\begin{equation*}
+\partial_{t} f_{\phi}(t) = 
+\Big( \sum_{i} c_{i}\int_{R^3}\psi_{i}(\vec{u})(f_M(\vec{u})-f(\vec{u},t))\phi(\vec{u})\, d\vec{u} \Big) 
+\end{equation*}
+%
+Substituting $\psi_{0}(\vec{u}) = 1$ we rewrite this expression as
+%
+\begin{align*}
+\partial_{t} f_{\phi}(t)& = c_{0} \int_{R^3} (f_M(\vec{u})-f(\vec{u},t))\phi(\vec{u})\, d\vec{u} ) \\
+&+\Big( \sum_{i=1}^{K} c_{i}\int_{R^3}\psi_{i}(\vec{u})(f_M(\vec{u})-f(\vec{u},t))\phi(\vec{u})\, d\vec{u} ).
+\end{align*}
+%
+In our approach we choose $c_0 = \nu_{BGK}$.  This helps us to reduce the number of unknowns and also help achieve consistency with the BGK model in case $c_{1}=c_{2}=\ldots =c_{6}=0$. Thus our collision frequency model generalizes the BGK equation. To simplify the notation, let $\Delta f := f_M - f$ Substituting $\phi=1$, $u_1$, $u_2$, $u_3$, $||\vec{u}-\vec{\bar{u}}||^2$ and $(u_1-\bar{u}_1)$, we obtain
+%
+\begin{align}
+\sum_{i=1}^6 c_i \int_{\mathbb{R}^3} \psi_i(\vec{u}) \Delta f \, d\vec{u} &= \partial_t f_1 - \nu_{BGK} \int_{\mathbb{R}^3} \Delta f \, d\vec{u} =0 \nonumber \\
+\sum_{i=1}^6 c_i \int_{\mathbb{R}^3} \psi_i(\vec{u}) u \Delta f \, d\vec{u} &= \partial_t f_{u_1} - \nu_{BGK} \int_{\mathbb{R}^3} u_1 \Delta f \, d\vec{u} = 0 \nonumber \\
+\sum_{i=1}^6 c_i \int_{\mathbb{R}^3} \psi_i(\vec{u}) v \Delta f \, d\vec{u} &= \partial_t f_{u_2} - \nu_{BGK} \int_{\mathbb{R}^3} u_2 \Delta f \, d\vec{u} = 0 \nonumber \\
+\sum_{i=1}^6 c_i \int_{\mathbb{R}^3} \psi_i(\vec{u}) w \Delta f \, d\vec{u} &= \partial_t f_{u_3}\ - \nu_{BGK} \int_{\mathbb{R}^3} u_3 \Delta f \, d\vec{u} = 0 \nonumber \\
+\sum_{i=1}^6 c_i \int_{\mathbb{R}^3} \psi_i(\vec{u}) ||\vec{u} - \vec{\bar{u}}||^2 \Delta f \, d\vec{u} &= \partial_t f_T - \nu_{BGK} \int_{\mathbb{R}^3} ||\vec{u} - \vec{\bar{u}}||^2 \Delta f \, d\vec{u} = 0 \nonumber \\
+\label{lastOne}
+\sum_{i=1}^6 c_i \int_{\mathbb{R}^3} \psi_i(\vec{u}) (u - \bar{u})^2 \Delta f \, d\vec{u} &= \partial_t f_{T_x} - \nu_{BGK} \int_{\mathbb{R}^3} (u_1 - \bar{u}_1)^2 \Delta f \, d\vec{u}.
+\end{align}
+%
+The first five terms are zeros since $\partial_t f_{\phi} = 0$ and $\nu_{BGK} \int_{\mathbb{R}^3} \phi \Delta f \, d\vec{u} = 0$ are the result of the expected change in mass, momentum and temperature. The last step in the formulation is to replace the term $\partial_t f_{T_x}$ using the following approximation
+%
+\begin{equation*}
+\partial_t f_{T_x} = \nu_{T_x} \int_{\mathbb{R}^3} (u - \bar{u})^2 \Delta f \, d\vec{u}.
+\end{equation*}
+%
+The $\nu_{T_x}$ term can be determined directly from the Boltzmann equation by evaluating the collision operator. This above approximation is often assumed in the engineering literature by Cukrowski \cite{Cuk2}.
+%[A.S. Cukrowski, Relaxation of translational energy in perpendicular directions for rigid spherical molecules, Acta Physica Polonica (1977) Vol. A52, No. 1]
+In particular, we observed that in the problem of the spatially homogeneous relaxation, this simple approximation provides an accurate approximation to the relaxation of moments of the solution for about two mean free times with the relaxation rate $\nu_{T_{x}}$ computed from the initial data. Afterwards, the rate needs to be re-computed, e.g., by evaluating the Boltzmann collision operator. However, in this work we make a stronger simplifying assumption and use the same initial rate for the entire process of relaxation. Even though this is a fairly crude approach, it offers considerable savings of computational time and also provides a reasonable match in the relaxation. 
+%operator $Q$ by replacing the $\int_{\mathbb{R}^3} (u - \bar{u})^2 \Delta f \, d\vec{u}$ with $\int_{\mathbb{R}^3} \int_0^{2 \pi} \int_0^{b_*} Q(f) (u - \bar{u})^2 \, db \, d\epsilon \, d\vec{u}$.
+The right side of (\ref{lastOne}) can be re-written:
+%
+\begin{align*}
+\partial_t f_{T_x} - \nu_{BGK} \int_{\mathbb{R}^3} (u - \bar{u})^2 \Delta f \, d\vec{u} &= \nu_{T_x} \int_{\mathbb{R}^3} (u - \bar{u})^2 \Delta f \, d\vec{u}  - \nu_{BGK} \int_{\mathbb{R}^3} (u - \bar{u})^2 \Delta f \, d\vec{u}\\
+&= (\nu_{T_x} - \nu_{BGK}) \int_{\mathbb{R}^3} (u - \bar{u})^2 \Delta f \, d\vec{u}.
+\end{align*}
+
+One can re-write this system of equations in the form $A \vec{c} = \vec{b}$ where the components of $A$ are
+%
+\begin{equation*}
+a_{i,j} = \int_{\mathbb{R}^3} \phi_i \psi_j \Delta f \, d\vec{u}
+\end{equation*}
+%
+and each $b_j$ term is of the form
+%
+\begin{equation*}
+b_j = \partial_t f_{\phi} - \nu_{BGK} \int_{\mathbb{R}^3} \Delta f \phi
+\end{equation*}
+%
+where $\vec{c}$ can be found by $\vec{c} = A^{-1} \vec{b}$.
+
+The algorithm for processing the velocity-dependent collision frequency model is evaluated as follows
+%
+\begin{enumerate}
+\item
+The collision frequency $\nu_{BGK}$ term from the BGK kinetic model is computed. If the $\nu_{T_x}$ term has been computed then proceed to the third step, otherwise proceed to the next step.
+%
+\item
+update the $\nu_{T_x}$ term by evaluating the Boltzmann equation.
+%
+\item
+Compute the $L_1$ difference between the distribution function $f$ and the local Maxwellian $f_M$.
+%
+\item
+If the $L_1$ difference is below some set level and the values of $\vec{c}$ are computed from a previous time step, use previous values of $\vec{c}$ in the current calculation and skip the next two steps. Otherwise, calculate the terms of the $A$ matrix and proceed to the next step.
+%
+\item
+Calculate the components of $\vec{b}$.
+%
+\item
+Solve for $\vec{c} = A^{-1} \vec{b}$.
+%
+\item
+Compute the velocity-dependent collision frequency term $\nu(\vec{u})$.
+%
+\item
+Evaluate the velocity-dependent collision frequency model form of (\ref{EqCh5}) for one time step. Repeat the process.
+\end{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section{Spatially Homogeneous Equation}
+%In this Chapter, we observe the form of the spatially homogeneous Boltzmann equation
+%
+%\begin{equation}
+%\label{SpacialHomo}
+%\partial_{t} f(t, \vec{u}) = \Psi(f)
+%\end{equation}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Maxwellian Perturbation Decomposition and Linearization}
+In the next section, we briefly describe the deterministic Boltzmann solver that will be used to produce comparison solutions to the problem of spatially homogeneous relaxation. This section describes the techniques used for the evaluation of the collision operator. When the gas distribution is far from continuum, the full Boltzmann equation is used to update the solution. However, if the distribution is near the Maxwellian equilibrium distribution, then it was proposed by Tcheremissine \cite{tch} that the distribution function $f$ can be replaced by its Maxwellian distribution $f_M$ and its perturbation from the Maxwellian $\Delta f$ by
+%
+\begin{equation}
+\label{decomp}
+f(t,\vec{u}) = f_M(t,\vec{u}) + \Delta f(t,\vec{u}).
+\end{equation}
+%
+We recall that the form of the discrete Boltzmann equation from Section 2.1.5 comes from
+%
+\begin{equation*}
+\partial_t f_{p',q',r'}^{i,i',i^*} = \frac{8}{\prod_{j=1}^3 \omega_j \Delta u_j} \int_{\mathbb{R}^3} \int_{\mathbb{R}^3} f f_1 A(\vec{u},\vec{u}^1;\Phi^{i,i',i^*}_{p',q',r'}) d\vec{u}^1 d\vec{u}.
+\end{equation*}
+%
+With the substitution of (\ref{decomp}) into the above form, the integration reduces to
+%
+\begin{equation*}
+= \frac{8}{\prod_{j=1}^3 \omega_j \Delta u_j} \int_{\mathbb{R}^3} \int_{\mathbb{R}^3} \left( f_M f_{M1} + \Delta f f_{M1} + \Delta f_1 f_M + \Delta f \Delta f_1 \right) A(\vec{u},\vec{u}^1;\Phi^{i,i',i^*}_{p',q',r'}) d\vec{u}^1 d\vec{u}.
+\end{equation*}
+%
+The integration of the Maxwellian terms are zero and by the symmetry of $A$,\\ $\int_{\mathbb{R}^3} \Delta f f_{M1} d\vec{u} = \int_{\mathbb{R}^3} \Delta f_1 f_M d\vec{u}$ and the above reduces to its decomposed form
+%
+\begin{equation*}
+\partial_t f_{p',q',r'}^{i,i',i^*} = \frac{8}{\prod_{j=1}^3 \omega_j \Delta u_j} \int_{\mathbb{R}^3} \int_{\mathbb{R}^3} \left( 2 \Delta f f_M + \Delta f \Delta f_1 \right) A(\vec{u},\vec{u}^1;\Phi^{i,i',i^*}_{p',q',r'}) d\vec{u}^1 d\vec{u}.
+\end{equation*}
+%
+When the solution gets closer to the Maxwellian, the $\Delta f \Delta f_1$ term becomes negligible and can be neglected. In this case the expression the decomposition reduces to is its linearized form
+%
+\begin{equation*}
+\partial_t f_{p',q',r'}^{i,i',i^*} = \frac{16}{\prod_{j=1}^3 \omega_j \Delta u_j} \int_{\mathbb{R}^3} \int_{\mathbb{R}^3} \Delta f f_M A(\vec{u},\vec{u}^1;\Phi^{i,i',i^*}_{p',q',r'}) d\vec{u}^1 d\vec{u}.
+\end{equation*}
+%
+%\begin{align*}
+%\partial_t f_{p',q',r'}^{i,i',i^*}(t) &= \frac{8}{\prod_{i=1}^3 \omega_i \Delta u_i} \int_{\mathbb{R}^3} \int_{\mathbb{R}^3} f f_1 A(\vec{u},\vec{u}_1;\Phi^{i,i',i^*}_{p',q',r'}) d\vec{u}_1 d\vec{u}\\
+%&= \frac{8}{\prod_{i=1}^3 \omega_i \Delta u_i} \int_{\mathbb{R}^3} \int_{\mathbb{R}^3} (f_M + \Delta f)(f_M + \Delta f_1) A(\vec{u},\vec{u}_1;\Phi^{i,i',i^*}_{p',q',r'}) d\vec{u}_1 d\vec{u}\\
+%&= \frac{8}{\prod_{i=1}^3 \omega_i \Delta u_i} \int_{\mathbb{R}^3} \int_{\mathbb{R}^3} (2 f_M \Delta f_1 + \Delta f \Delta f_1) A(\vec{u},\vec{u}_1;\Phi^{i,i',i^*}_{p',q',r'}) d\vec{u}_1 d\vec{u}
+%\end{align*}
+%
+%\textit{Sydney Chapman pp. 278 looks a lot like this}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Dimensionless Reduction}
+The constants used in the calculations of the Boltzmann equation and the kinetic models vary significantly in scale. To avoid the accumulation of roundoff errors associated with the manipulation of these large and small numbers, dimensionless reduction is performed. We specify the following constants that will be used in the normalization. Let $T_{\infty}$ be the reference dimensional temperature. We define $C_{\inf}=790.1876$ m/s to be the reference dimensional velocity, $L = 1.0$ m to be the reference dimensional length and $N = 1.0$E$+20$ to be the reference number of molecules. Let $\hat{t},\hat{x},\hat{v}$ be the dimensional variables. The dimensionless variables $t,x,v$ are defined by (with $C_\infty = \sqrt{2 R T_\infty}, \, \tau C_\infty = L $):
+%
+\begin{align*}
+t = \frac{\hat{t}}{\tau}\\
+x = \frac{\hat{x}}{L}\\
+u = \frac{\hat{u}}{C_\infty}
+\end{align*}
+%
+The dimensionless velocity distribution function $f(x,u,t)$ is defined as:
+%
+\begin{equation*}
+f(x,u,t) = \frac{L^3 C_\infty^3}{N} \hat{f}(t \tau, x L, v C_\infty) = \frac{L^3 C_\infty^3}{N} \hat{f} (\hat{t}, \hat{x}, \hat{u}).
+\end{equation*}
+%
+Furthermore, we define the dimensionless number density, momentum and temperature as
+%
+\begin{align}
+\label{npart}
+n(t,x) &= \frac{L^3}{N} \hat{n} (\hat{t}, \hat{x})\\
+\label{upart}
+\bar{u} (t,x) &= \frac{\hat{\bar{u}} (\hat{t},\hat{x})}{C_\infty}\\
+\label{tpart}
+T(t,x) &= \frac{\hat{T}(\hat{t}, \hat{x})}{T_\infty}.
+\end{align}
+%
+One can check that the following relationship holds between the dimensional and dimensionless macro parameters.
+%
+It is convenient to define the dimensionless Maxwellian distribution as
+%
+\begin{equation*}
+f(t, \vec{u}) = \frac{n(t)}{\sqrt{\pi T}} \exp \left(-\frac{1}{2}  \frac{||\bar{\vec{u}} - \hat{\vec{\bar{u}}}||^2}{T} \right).
+\end{equation*}
+%
+We recall that the BGK equation in its dimensional form has the form
+%
+\begin{equation}
+\label{The}
+\partial_{\hat{t}} \hat{f}(\hat{t}, \hat{\vec{u}}) = \hat{\nu}(\hat{t})\left(\hat{f}_{0}(\hat{t}, \hat{\vec{u}})- \hat{f}(\hat{t}, \hat{\vec{u}})\right)
+\end{equation}
+%
+Here, the collision frequency is
+%
+\begin{equation*}
+\hat{\nu} = \frac{\hat{P}}{\mu} \left( \frac{\hat{T}_0}{\hat{T}} \right) ^{\gamma}
+\end{equation*}
+%
+where
+%
+\begin{equation*}
+\hat{P} = \hat{n} k \hat{T}
+\end{equation*}
+%
+Upon substitution of dimensionless quantities using relationships (\ref{npart}) and (\ref{tpart}) we have 
+%
+\begin{equation*}
+\hat{\nu} = \frac{T_\infty N n k T}{L^3 \mu} \left( \frac{T_0}{T} \right) ^{\gamma}
+\end{equation*}
+%
+\begin{equation}
+\label{nu}
+\hat{\nu} = \frac{T_\infty N k}{L^3 \mu} \nu.
+\end{equation}
+%
+%For the purpose of DG velocity discretization we have $\hat{U}=[\hat{u}_{L1}, \hat{u}_{R1}] \times [\hat{u}_{L2}, \hat{u}_{R2}] \times [\hat{u}_{L3}, \hat{u}_{R3}]$ a sufficiently large interval where $\hat{U}$ is partitioned into subintervals 
+%$\hat{K}_{i,j,k}=[\hat{u}_{i-1/2},\hat{u}_{i+1/2}] \times [\hat{u}_{j-1/2},\hat{u}_{j+1/2}] \times [\hat{u}_{k-1/2},\hat{u}_{k+1/2}]$ and $\chi_{p}$ and $\omega_{p}$, $p=1,\ldots,P$ denote the nodes and weights of the Gaussian quadrature of order $2P-1$ on the interval $[-1,1]$. On $[\hat{u}_{i-1/2},\hat{u}_{i+1/2}]$
+%
+%\begin{equation*}
+%\hat{\chi}_{p,i} := \frac{\hat{u}_{i+1/2} + \hat{u}_{i-1/2}}{2} + \chi_{p}\frac{\hat{u}_{i+1/2} - \hat{u}_{i-1/2}}{2}
+%\end{equation*}
+% use \ref{Chi} or \ref{Chi} to get the reference for this equation
+%
+%with the basis functions:
+%
+%\begin{equation*}
+%\hat{\varphi}_{p,i}(\hat{u}) = \prod\limits_{q=1,s \atop q \neq p} \frac{\hat{u}-\hat{\chi}_{q,i}}{\hat{\chi}_{p,i} - \hat{\chi}_{q,i}}.
+%\end{equation*}
+%
+%but making the substitutions from the dimensional velocity to the dimensionless velocity, $\hat{\chi}_{p,i} = C_\infty \chi_{p,i}$ we obtain
+%
+%\begin{equation*}
+%\hat{\varphi}_{p,i}(\hat{u}) = \varphi_{p,i}(u)
+%\end{equation*}
+%
+%So then,
+%
+%\begin{equation*}
+%\Phi_{p,q,r}^{i,i',i^*}(\vec{u}) := \varphi_{p,i}(u) \varphi_{q,i'}(v) \varphi_{r,i^*}(w)
+%\end{equation*}
+%
+%we arrive at the result
+%
+%By making appropriate substitutions, one can show that
+%
+%\begin{equation}
+%\label{EqualBasis}
+%\Phi_{p,q,r}^{i,i',i^*}(\vec{u}) = \hat{\Phi}_{p,q,r}^{i,i',i^*}(\hat{\vec{u}}).
+%\end{equation}
+%
+Notice that
+%
+\begin{equation}
+\frac{\partial}{\partial \hat{t}} = \frac{\partial}{\partial t} \frac{d t}{d \hat{t}} = \frac{1}{\tau} \frac{\partial}{\partial t}
+\end{equation}
+%
+making the above substitutions into (\ref{The}) and simplifying we obtain
+%
+%\begin{equation}
+%\partial_{t} \frac{N}{\tau L^3 C_{\infty}^3} f(t, \vec{u}) = \frac{N}{L^3 C_{\infty}^3} \hat{\nu}(\hat{t})\left(f_M(t, \vec{u})- f(t,\vec{u})\right)
+%\end{equation}
+%
+%Which simplifies to
+%
+\begin{equation}
+\label{TheDimless}
+\partial_{t} f(t, \vec{u}) = \tau \hat{\nu}(\hat{t})\left(f_M(t, \vec{u})- f(t,\vec{u})\right).
+\end{equation}
+%
+%The reduced velocity distribution functions $\hat{f}(\hat{t},\hat{\vec{u}})$ are represented in the form 
+%
+%\begin{equation}
+%\frac{N}{L^3 C_\infty^3} f(t,\vec{u}) = \hat{f}(\hat{t},\hat{\vec{u}}) \approx \sum_{p,q,r=1} ^{P,Q,R} \hat{f}(\hat{t},\hat{\vec{\chi}}_{p,i}) \hat{\Phi}_{p,q,r,i}(\hat{\vec{u}})
+%\end{equation}
+%
+%\begin{equation}
+%= \sum_{p,q,r=1} ^{P,Q,R} \frac{N}{L^3 C_\infty^3} f(t,\vec{\chi}_{p,i}) \hat{\Phi}_{p,q,r,i}(\hat{\vec{u}})
+%\end{equation}
+%
+%\begin{equation}
+%= \frac{N}{L^3 C_\infty^3} \sum_{p,q,r=1} ^{P,Q,R} f(t,\vec{\chi}_{p,i}) \Phi_{p,q,r,i}(\vec{u}).
+%\end{equation}
+%
+%The discrete form of the dimensionless distribution takes the form
+%
+%\begin{equation}
+%\label{DiscreteF}
+%f(t,\vec{u}) \approx
+%\sum_{p,q,r=1} ^{P,Q,R} f(t,\vec{\chi}_{p,i}) \Phi_{p,q,r,i}(\vec{u}).
+%\end{equation}
+%
+%After integrating (\ref{TheDimless}) through velocity. Because of (\ref{EqualBasis}) orthogonality is conserved and so by multiplying by the basis function and using the (\ref{DiscreteF}) approximation and substituting \ref{nu}, the DG discretization becomes
+Substituting (\ref{nu}) into (\ref{TheDimless}) we arrive at the dimensionless BGK equation
+%
+\begin{equation}
+\label{DiscreteEQ}
+\partial_{t} f(t,\vec{\chi}_{p,q,r}) = \frac{m N}{2 L \mu} \nu(t) (f_M(t,\vec{\chi}_{p,q,r,i})-f(t,\vec{\chi}_{p,q,r}))
+\end{equation}
+%
+where $m$ is the molecular mass.
+%From here, a Runge-Kutta method is used initially on (\ref{DiscreteEQ}) to produce a sufficient number of steps to be used with the Adams-Bashforth method to produce the solution explicitly through time.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Time Evolution}
+%In our assumption of having a spatially homogeneous equation, (\ref{SpacialHomo}) became an ODE developed from a hyperbolic PDE. The solution is the density function $f$ that we wish to solve through time $t$. We proceed by integrating (\ref{SpacialHomo}) over a time step $\Delta t$
+In this section, we will give a brief explanation how the time evolution of the spatially homogeneous Boltzmann equation and kinetic models are discretized. Let $\Psi$ be the collision operator of either the Boltzmann equation, the BGK kinetic model or the velocity dependent collision frequency model. By integrating from time $t_n$ to time $t_n + \Delta t$,
+%
+\begin{align*}
+\int_{t_n}^{t_{n+1}} \partial_{t} f(t, \vec{u}) dt &= \int_{t_n}^{t_{n+1}} \Psi(f) dt\\
+f(t_{n+1}, \vec{u}) - f(t_n, \vec{u}) &= \int_{t_n}^{t_{n+1}} \Psi(f) dt
+\end{align*}
+%
+then time evolution takes the form of
+%
+\begin{equation*}
+f(t_{n+1}, \vec{u}) = f(t_n, \vec{u}) + \int_{t_n}^{t_{n+1}} \Psi(f) dt.
+\end{equation*}
+%
+The Adams-Bashforth technique is used to evaluate the integral term with a high order of accuracy. The advantage of this multi step method over other methods, like Runge Kutta, is that we only need to evaluate the collision operator once per time step. The Adams Bashforth method, based on the order of accuracy, requires a number of pre-computed results. For this reason, the Runge-Kutta method is invoked to generate the initial points with the same order of accuracy used in the Adams-Bashforth method. Runge-Kutta and Adams-Bashforth methods are derived in Chapters 5.4 and 5.6 of Burden \cite{burden}.
+%The objective now is to evaluate the right hand side (\ref{415}) through time. One method we used to do this is by the use of the explicit multi step Adams-Bashforth method. The Adams-Bashforth method can be constructed for any order of accuracy with the advantage of only evaluating the right hand side of (\ref{415}) only once per step. The implicit methods will generally provide greater accuracy for the same order of accuracy but will be expected to require more processing. Because the source term we are integrating, especially when the Boltzmann equation is the one being evaluated, is processor intensive, the explicit Adams-Bashforth method is used.
+
+%The Adams-Bashforth method is developed by replacing the term in the integral of (\ref{415}) by its polynomial approximation based on previously determined values. These values are the result of pre-computed values that are stored in memory and used again through each step. Then this polynomial is integrated through time to get the next time step. This gives an advantage over the one step Runge-Kutta methods which require the evaluation of intermediate values before advancing to the next step. But since the Adams-Bashforth method requires initial data to start with, we implement the Runge-Kutta method of the same order of accuracy as the Adams-Bashforth method to generate the starting values. This way we conserve the same order of accuracy throughout the time evolution of the problem. Chapter 5.6 in Burden \cite{burden} gives detail about the Adams-Bashforth technique.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The Directional Temperature Relaxation Rates and Other Conserved Moments}
+In this section, the relaxation rates of the directional temperatures are compared between the Boltzmann equation, the BGK model and the velocity dependent collision frequency BGK model. In addition, the mass and temperature is shown to be conserved. The directional temperature in the $x,y,z$ directions respectively are defined as
+%
+\begin{align*}
+T_x &= \frac{1}{3 n R} \int_{\mathbb{R}^3} (u_1 - \bar{u}_1)^2 f d\vec{u}\\
+T_y &= \frac{1}{3 n R} \int_{\mathbb{R}^3} (u_2 - \bar{u}_2)^2 f d\vec{u}\\
+T_z &= \frac{1}{3 n R} \int_{\mathbb{R}^3} (u_3 - \bar{u}_3)^2 f d\vec{u}.
+\end{align*}
+%
+The initial state of the gas was composed of half the sum of two Maxwellian distributions, $f_1$ and $f_2$. The initial macro parameters for $f_1$ were $n_1 = 2.00014$, $\bar{u}_1 = (1.2247472,0,0)$ and $T_1 = 0.20$; $f_2$ were $n_2 = 5.99984$, $\bar{u}_2 = (0.4082448,0,0)$ and $T_2 = 0.7333333$. The gas distribution was allowed to relax to equilibrium by evaluating the Boltzmann equation, the BGK model and the velocity dependent collision frequency BGK model separately. Because our equations are conservative, the macro parameters for the system do not change with time and are found by the following equations
+%
+\begin{equation}
+\label{Total_den}
+n = \int_{\mathbb{R}^3} f d\vec{u} = \frac{1}{2} \int_{\mathbb{R}^3} \left( f_1 + f_2 \right) d\vec{u} = \frac{n_1 + n_2}{2}
+\end{equation}
+%
+\begin{equation}
+\label{Total_mom}
+\vec{\bar{u}} = \int_{\mathbb{R}^3} \vec{u} f d\vec{u} = \frac{1}{2} \left( n_1 \frac{1}{n_1} \int_{\mathbb{R}^3} \vec{u} f_1 d\vec{u} + n_2 \frac{1}{n_2} \int_{\mathbb{R}^3} \vec{u} f_2 d\vec{u} \right)  = \frac{n_1 \bar{u}_1 + n_2 \bar{u}_2}{2 n}
+\end{equation}
+%
+\begin{equation}
+\label{Total_temp_pre}
+3 n T = \int_{\mathbb{R}^3} ||\vec{u}-\vec{\bar{u}}||^2 f d\vec{u} = \frac{1}{2} \int_{\mathbb{R}^3} \left( ||\vec{u}||^2-2 u \cdot \bar{u} + ||\vec{\bar{u}}||^2 \right) (f_1 + f_2) d\vec{u}.
+\end{equation}
+%
+Without confusion, let us denote the subscripts $1,2$ to mean either the first or second distribution function exclusively. We notice that
+\begin{align*}
+\int_{\mathbb{R}^3} ||\vec{u}||^2 f_{1,2} du &= \int_{\mathbb{R}^3} ||\vec{u} - \vec{u_{1,2}}| + \vec{u_{1,2}}|||^2 f_{1,2} d\vec{u} \\
+&= \int_{\mathbb{R}^3} \left( ||\vec{u} - \vec{u_{1,2}}|||^2 + 2 (u - \vec{u_{1,2}}|) \cdot \vec{u_{1,2}}| + ||\vec{u}_{1,2}||^2 \right) f_{1,2} d\vec{u} \\
+&= 3 n_{1,2} T_{1,2} + ||\vec{u}_{1,2}||^2 n_{1,2}.
+\end{align*}
+%
+Substituting the above back into (\ref{Total_temp_pre}), we obtain the temperature
+%
+\begin{equation}
+\label{Total_temp}
+T = \frac{1}{2 n} \left(n_1 T_1 + n_2 T_2 \right) - \frac{1}{3} ||\vec{\bar{u}}||^2 + \frac{1}{6 n} \left( n_1 ||\bar{u}_1||^2 + n_2 || \bar{u}_2 ||^2 \right).
+\end{equation}
+%
+The initial and final states of the gas distribution are observed in figure \ref{ThreeDhomo}.
+%
+\begin{figure}[h!]
+\centering
+\begin{tabular}{cc}
+  \includegraphics[angle=0,width=70mm]{ThreeDhomo/preThreeDDDsolution.pdf}&
+  \includegraphics[angle=0,width=70mm]{ThreeDhomo/ThreeDDDsolution.pdf}\\
+  {\small (a) }& {\small (b) }\\
+\end{tabular}
+\caption{\label{ThreeDhomo} The distribution of the gas at its initial state (a) and at equilibrium (b)}
+\end{figure}
+\FloatBarrier
+%
+The relaxation of the directional temperature for these equations can be observed in figures \ref{DirTempx}, \ref{DirTempy} and \ref{DirTempz}. One can see that directional temperature of the BGK model relaxes at a slower rate than the Boltzmann equation but the velocity dependent collision frequency BGK model relaxes close to the same rate as the Boltzmann equation. The density and temperature can be observed through time in figures \ref{Den} and \ref{Temp}. One can see that up to three digits of the density and temperature are conserved.
+%
+\begin{figure}[h!]
+\centering
+\includegraphics[width=100mm]{moments/Tx.pdf}
+\caption{\label{DirTempx} The relaxation of the directional temperature for the Boltzmann equation, BGK model and the velocity dependent collision frequency BGK model in the x-direction.}
+\end{figure}
+%
+\begin{figure}[h!]
+\centering
+\includegraphics[width=100mm]{moments/Ty.pdf}
+\caption{\label{DirTempy} The relaxation of the directional temperature for the Boltzmann equation, BGK model and the velocity dependent collision frequency BGK model in the y-direction.}
+\end{figure}
+%
+\begin{figure}[h!]
+\centering
+\includegraphics[width=100mm]{moments/Tz.pdf}
+\caption{\label{DirTempz} The relaxation of the directional temperature for the Boltzmann equation, BGK model and the velocity dependent collision frequency BGK model in the z-direction.}
+\end{figure}
+%
+\begin{figure}[h!]
+\centering
+\includegraphics[width=100mm]{moments/density.pdf}
+\caption{\label{Den} The density profile through time for the Boltzmann equation, BGK model and the velocity dependent collision frequency BGK model.}
+\end{figure}
+%
+\begin{figure}[h!]
+\centering
+\includegraphics[width=100mm]{moments/temperature.pdf}
+\caption{\label{Temp} The temperature profile through time for the Boltzmann equation, BGK model and the velocity dependent collision frequency BGK model.}
+\end{figure}
+%
+\FloatBarrier
+%
+%T = 0.68328. but i get T = 0.64166779?
+%
+%We intend to observe the steady state solution of the spatially homogeneous problem by first considering an initial gas distribution of two Maxwellian distributions in velocity space denoted by $f_{m1}$ and $f_{m2}$ as the first and second distribution respectively. We start with the following macro parameters of $n_1 = 2.00014$, $\bar{u}_1 = (1.2247472,0,0)$, $T_1 = 0.20$ for the first distribution and $n_2 = 5.99984$, $\bar{u}_2 = (0.4082448,0,0)$, $T_2 = 0.7333333$ for the second. We compute the steady state solution numerically and compare with the analytical solution $n$, $\bar{u}$ and $T$. These final results are computed as follows:
+%The initial distribution takes the form of $f = \frac{1}{2}(f_1 + f_2)$. Since we can compute the initial macro parameters and they are conserved through time, the computed macro parameters are the same as the final macro parameters. Namely
+%
+%Since these first three moments are conserved through time, we can then get the final equilibrium state by computing the final Maxwellian distribution analytically using \ref{Total_den}, \ref{Total_mom} and \ref{Total_temp} as the final results.
+%
+%Consider the dimensionless Maxwellian
+%\begin{equation}
+%\label{dimless_maxwellian}
+%f_m = \frac{d}{\sqrt{(\pi T)^3}} e^{\left( - \frac{||\vec{u} - \vec{\bar{u}}||^2}{T} \right)}
+%\end{equation}
+%
+%which is computed from the first three moments density, momentum and temperature given by
+% Density
+%\begin{align}
+%\label{density}
+%n(t) := \int_{\mathbb{R}^{3}} f(t, \vec{u}) du,\quad &
+%\text{\tab (density)}\\
+% Momentum
+%\label{momentum}
+%\vec{\bar{u}}(t) := \frac{1}{n(t)} \int_{\mathbb{R}^{3}} \vec{u} f(t, \vec{u}) du,\quad & \text{\tab (bulk velocity)} \\
+% Temperature
+%\label{temperature}
+%T(t) := \frac{1}{3 n(t)} \int_{\mathbb{R}^{3}} ( \vec{u} - \vec{\bar{u}})^{2} f(t, \vec{u}) du, \quad & \text{\tab (temperature)}\\
+%\end{align}
+%%%%%%%%%%%% Higher moments %%%%%%%%%%%%%%
+%We seek to compute the higher order moments explicitly from the form
+%
+%\begin{equation}
+%\label{orderMoment}
+%\int_{\mathbb{R}^3} u_1^{m_1} u_2^{m_2} u_3^{m_3} f_M \, d\vec{u}.
+%\end{equation}
+%
+%Note that if $m$ is odd, the term in the integral of \ref{orderMoment} is odd which gives us zero. Se we begin by assuming $m$ is even and expand \ref{orderMoment} with the dimensionless Maxwellian (\ref{dimless_maxwellian}) as follows:
+%
+%\begin{align}
+%&\int_{\mathbb{R}^3} u_1^{m_1} u_2^{m_2} u_3^{m_3} \frac{n}{\sqrt{(\pi T)^3}} e^{-\frac{||\vec{u} - \vec{\bar{u}}||^2}{T}} d\vec{u}\\
+%&= \frac{n}{\sqrt{(\pi T)^3}} \int_{\mathbb{R}} u_1^{m_1} e^{-\frac{(u_1 - \bar{u}_1)}{T}} du_1 \int_{\mathbb{R}} u_2^{m_2} e^{-\frac{(v - \bar{u}_2)^2}{T}} du_2 \int_{\mathbb{R}} u_3^{m_3} e^{-\frac{(w - \bar{u}_3)^2}{T}} du_3
+%\end{align}
+%
+%Since each of the integrals are identical, let us observe just one of them. We start with a shift of $\bar{u}_i$ to get
+%
+%\begin{align}
+%\int_{\mathbb{R}} u_i^m e^{-\frac{(u_i - \bar{u}_i)^2}{T}} du_i &= \sqrt{T} \int_{\mathbb{R}} (x \sqrt{T} + \bar{u}_i)^m e^{-x^2} dx\\
+%&= \sqrt{T} \int_{\mathbb{R}} \sum_{k=0}^m {m \choose k} x^k T^{k/2} \bar{u}_i^{m-k} e^{-x^2} dx\\
+%&= \sqrt{T} \sum_{k=0}^m {m \choose k} T^{k/2} \bar{u}_i^{m-k} \int_{\mathbb{R}} x^k e^{-x^2} dx\\
+%\end{align}
+%
+%Through a repeated process of separation of variables by $x^{k-1}$ and $x e^{-x^2} dx$ we get
+%
+%\begin{equation}
+%\int_{\mathbb{R}^2} x^k e^{-x^2} dx = \left \{ \begin{array}{lc} \frac{\sqrt{\pi}}{2^{k/2}} \prod_{i=1}^{k/2} \left(k - 2 i + 1 \right), & k \text{ even} \\ 0, & k \text{ odd} \end{array} \right.
+%\end{equation}
+%
+%where we get zero from integrating an odd function. so then
+%
+%\begin{equation}
+%\label{onePart}
+%\int_{\mathbb{R}^3} u_i^{m_i} e^{-\frac{||\vec{u} - \vec{\bar{u}}||^2}{T}} d\vec{u}
+%= \sqrt{T \pi} \sum_{j=0}^{\lfloor m_i/2 \rfloor} \bar{u}_k^{m_i-2j} {m_i \choose 2j} \left(\frac{T}{2}\right)^j \prod_{p=1}^j \left(2 j - 2 p + 1 \right).
+%\end{equation}
+%
+%and using (\ref{onePart}) we can then evaluate (\ref{orderMoment}) to get
+%
+%\begin{equation}
+%\int_{\mathbb{R}^3} u_1^{m_1} u_2^{m_2} u_3^{m_3} f_M \, d\vec{u} = n \prod_{k=1}^3 \sum_{j=0}^{\lfloor m_k/2 \rfloor} \bar{u}_k^{m_k-2j} {m_k \choose 2j} \left(\frac{T}{2}\right)^j \prod_{p=1}^j \left(2 j - 2 p + 1 \right)
+%\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Because we have the molecular diameter used for the computation of the Boltzmann equation, From Chapman \cite{sydney} (pp. 218) the relation between the molecular diameter and the viscosity for hard sphere molecules is given by the equation
+%
+%\begin{equation}
+%\mu = \frac{5}{16 \sigma^2} \sqrt{\frac{k m R T}{\pi}} = \frac{5 m}{16 \sigma^2} \sqrt{\frac{R T}{\pi}}
+%\end{equation}
+%
+%from which we can use in the evaluation of the BGK model.
+%
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[width=100mm]{moments/DirTemp.pdf}
+%\caption{\label{DirTemp} The directional temperature in the x-direction}
+%\end{figure}
+%\FloatBarrier
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section{Results}
+%We compare our results to Brull and Schneider [11] which shows the $L_1$ error through time of the Boltzmann equation and ESBGK model.
+%
+%\begin{figure}[h!]
+%\label{L1BoltzmannES}
+%\centering
+%  \includegraphics[angle=0,width=80mm]{L1Boltzmann/L1_errorBoltzES.pdf}
+%\caption{The $L_1$ error convergence to the Maxwellian distribution}
+%\end{figure}
+%\FloatBarrier
+%
+%The convergence of the temperature and third moments are analyzed for the Boltzmann equation
+%
+%\begin{figure}[h!]
+%\label{BoltTemp}
+%\centering
+%  \includegraphics[angle=0,width=80mm]{moments/TemperatureMom.pdf}
+%\caption{The convergence of the Temperature}
+%\end{figure}
+%
+%\begin{figure}[h!]
+%\label{Bolt3Moment}
+%\centering
+%  \includegraphics[angle=0,width=80mm]{moments/ThirdMoment.pdf}
+%\caption{The convergence of the third moment}
+%\end{figure}
+%\FloatBarrier
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

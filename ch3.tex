@@ -1,0 +1,7 @@
+CLAWPACK is a software package developed in Fortran by LeVeque et al \cite{clawly} for the solution of hyperbolic PDEs in one and two spatial dimensions. It is explicit in time and supports first and second order accurate schemes. Flux limiters are also supported for solving problems with discontinuities but because we do not deal with discontinuities, we do not use limiters in our implementation. Implementations of CLAWPACK include Geo-claw for Tsunami modeling and other geophysical flows. In this thesis we extend CLAWPACK to the solution of the model kinetic equations of the Boltzmann equation.
+
+We notice that CLAWPACK is capable of handling multicomponent systems of hyperbolic equations including the BGK and ES-BGK kinetic models. Therefore its extension to the kinetic solutions only requires adding components that perform discretization in the velocity space and adding components for evaluation of the discrete collision operator. Also, CLAWPACK requires that a Riemann solver for the hyperbolic systems be provided.
+
+Time integration in CLAWPACK utilizes the splitting technique. As discussed earlier, we solve the homogeneous transport equation and its collision operator separately.
+
+Both first order and second order Riemann solvers are implemented. The fractional step method is used for the first order method and Strang splitting is used for the second order method.

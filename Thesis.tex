@@ -1,0 +1,104 @@
+\documentclass[12pt]{CSUNthesis}
+\usepackage{graphicx}
+\usepackage{placeins}
+\usepackage{setspace}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{natbib}
+\usepackage{soul}
+
+% boundary conditions section for heat and shock wave
+% get pictures of kinetic energy and momentum to show conservation
+% do the i;j thingy for the system of equations. the comprehension of this is way better
+% left off at Reduction of the BGK Model
+% reference Bird and the text on dimensionality reduction
+% image and table of 1st/2nd order convergence of the whole solution
+% table showing mass conservation heat problem
+\submitted{May}{2013}
+\author{Craig Euler}
+\title{The Development of Efficient Techniques for Simulating Non-Continuum Gas Flows}
+\committee
+{Alexander Alekseenko, Ph.D.}
+{Vladislav Panferov, Ph.D.}
+{Gholam-Ali Zakeri, Ph.D.}
+%
+\abstract {Numerical simulations of non-continuum gas flows are expected to alleviate many difficulties associated with engineering research. For this reason, there is a growing interest in developing high fidelity numerical simulations of non-continuum flows. It is believed that such simulations can eventually replace physical experiments. At the same time the simulation of non-continuum flows is very challenging due to the multidimensionality of the governing equations and the equations' stiffness. This thesis is concerned with the development of efficient techniques for simulating non-continuum flows using model kinetic equations. High order nodal discontinuous Galerkin (DG) discretization in velocity space of the Bhatnagar-Gross-Krook (BGK) and Ellipsoidal-Statistical Bhatnagar-Gross-Krook (ES-BGK) model kinetic equations are developed and implemented. The spatial and temporal discretization are implemented on the basis of the CLAWPACK software which is extended to solve the kinetic model equations. We perform numerical simulations of the heat transfer and the normal shock wave problems. Accuracy of the numerical solutions in satisfying the conservation laws is assessed. We confirm that the solutions exhibit the expected order of convergence. In the problem of the normal shock wave the obtained numerical solutions are compared to experimental data. In the second part of the thesis, the problem of spatially homogeneous relaxation is considered. For this problem, a new conservative BGK model with velocity dependent collision frequency is designed. With the new model, one achieves the correct relaxation rates for a selected group of moments. The correct rates are obtained by solving the Boltzmann equation deterministically at the initial time step.}
+
+%\dedication{This template is dedicated to the brave, pioneering students who choose to produce their thesis using \ LaTeX .}
+
+\acknowledgement{I would like to thank, especially, my advisor and mentor Dr.\!~Alekseenko for his endless abundance of patience and his help in my understanding of the material put into this thesis. Many days and weekends he has made himself available. I would like to thank Dr.\!~Zakeri who has taught me many courses in Applied Mathematics. His cheerful attitude has always brightened the day and he has always worked hard to put the students first, both in the classroom and out. I would like to thank Dr.\!~Panferov for access to the powerful work station that he has supervised. This access was essential for improving numerical results. I would like to thank my loving wife Josefina who has been a major encouragement and has been by my side throughout the program since day one.}
+
+%{Special thanks to Joohwan Lee, Amy Snetzler and Joel Iniguez for pointing out all the mistakes present in the \textsf{CSUNthesis} class file and for their continued pressure to make the class file perfekt and well documented.}
+
+%\preface{Authors may want to describe, or inform the reader of something special prior to presenting the thesis material.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\doublespacing
+
+\def\R{\mathbb{R}}
+\def\T{\mathbb{T}}
+
+\newenvironment{myequation}
+{\setcounter{equation}{\value{subsection}}\begin{equation}}
+{\stepcounter{subsection}\end{equation}}
+\renewcommand{\theequation}{\mbox{\arabic{section}.\arabic{equation}}}
+
+\newcommand{\tab}{\hspace*{2em}}
+%\cite{ahu61}
+%\cite{ab94}
+%\cite{m85}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\numberwithin{equation}{subsection}
+\chapter{Introduction}
+
+Object re-entry into the atmosphere is a concern with the engineering community. For instance, when a space shuttle enters the atmosphere, its surface begins to interact with the gas particles in the atmosphere. Since the shuttle enters the atmosphere at extremely high speeds, the particles transfer a copious amount of kinetic energy into heating of the shuttle's surface. This results in an extreme heating that puts the aircraft at risk of structural damage. Because it is not feasible to reproduce the re-entry conditions in a laboratory setting, the process of surface heating is difficult to analyze. Therefore a large hope is being put onto the development of high fidelity solvers that can simulate the high speed gas flows and help predict the correct heating patterns. 
+
+%In recent years, computational power and parallel processing capabilities increased dramatically suggesting that numerical methods might provide an alternative to experimentation. This thesis is dedicated to the development of efficient methods for simulations of non-continuum flows.
+
+The Boltzmann equation describes the gas at the molecular level. Its numerical solution is extremely challenging because it requires evaluations of the multidimensional collision integral resulting in the overall complexity of $O(n^{11})$ calculations. Here, $n$ is the number of velocity nodes in one dimension of velocity space. To overcome this difficulty, model equations which are approximations to the Boltzmann equation, have been proposed. In the model equations, the multidimensional collision integral is replaced by a simpler relaxation term. In this thesis we consider the Bhatnagar-Gross-Krook (BGK) \cite{bgk} and Ellipsoidal-Statistical Bhatnagar-Gross-Krook (ES-BGK) \cite{esbgk} models. Although model equations are only approximations to the Boltzmann equation, they are known to possess several physical properties of the true solution. In particular, they conserve mass, momentum and energy. Because the enforcement of the conservation laws is important in gas dynamics, we chose to develop our numerical schemes based on the software package known as CLAWPACK which stands for “Conservative Laws Package“. CLAWPACK is developed by Prof. R. LeVeque \cite{clawly} for linear and non-linear hyperbolic systems with conservative high resolution Godunov methods in mind. In this thesis, we extend CLAWPACK by adding capabilities to resolve the BGK and ES-BGK kinetic models. Specifically, we discretized the model equations through velocity space using the high order nodal discontinuous Galerkin (DG) methods. Our DG discretization yield first order symmetric hyperbolic systems of equations that are coupled together through the integral nonlinear right hand side. We use the splitting technique which allows us to separate the two sides of the system and evolve each side independently through time in alternating fashion. The main benefit of the splitting is the freedom for choosing different sizes of the time step for the left, the transport part, and the right, the collision part, sides of the system. The freedom of choosing different step size becomes important in near-continuum regime when the collision part of the kinetic equations is known to become stiff
+
+Although the kinetic models conserve the mass, momentum and energy, which are obtained as the first three moments of the distribution function in the velocity variable, they do not guarantee the correct relaxation rates of higher moments as the numerical solution reaches thermodynamic equilibrium. In Chapter~5 of the thesis we design and implement a hybrid approach where the Boltzmann equation is evaluated initially to determine the correct relaxation rates of the specified higher moments. After that, the solution is advanced through time using a modified BGK model. The modified BGK model has a velocity dependent collision frequency that is updated on each time step to enforce the correct relaxation rates. In this thesis, the specified moments are taken to be the directional temperatures.
+
+\input{ch1}
+\chapter{Discretization In Velocity and Space}
+\input{ch2}
+\chapter{CLAWPACK}
+\input{ch3}
+\chapter{Experimental Results}
+\input{ch4}
+\chapter{The Velocity Dependent Collision-BGK Model}
+\input{ch5}
+\chapter{Conclusions and Future Work}
+\input{Conclusion}
+\appendix
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section{References}
+% use Bibtex?
+% Bird - reciprocal shock thickness
+% http://depts.washington.edu/CLAWPACK/users-4.6/about.html#authors
+%\noindent
+
+%[1] P.L. Bhatnagar, E.P. Gross, and M. Krook, \textit{A model for collision processes in gases. I. Small Amplitude Processes in Charged and Neutral One-Component Systems.} Phys.Rev. 94, 511-525 (1954)
+%[2] L.H. Holway. \textit{Kinetic theory of shock structure using an ellipsoidal distribution function, in: Rarefied Gas Dynamics, vol. I} (Proceedings of the Fourth International Symposium, University of Toronto, 1964), Academic Press, New York, 1966, pp. 193–215.
+%[3] Youhei Morinishi, \textit{Conservative properties of finite difference schemes}\\ [2mm]
+%[4] R. J. LeVeque, M. J. Berger, et. al., CLAWPACK Software 4.5.1, www.CLAWPACK.org, June 2011\\ [2mm]
+%[5] H. Alsymyer Journal of Fluid Mechanics / Volume 74 / Issue 03 / April 1976, pp 497 - 513\\[2mm]
+%[6] Jianke Yang, \textit{Nonlinear Waves in Integrable and Nonintegrable Systems} pp. 336-338\\[2mm]
+%[7] Struchtrup pp. 27-34\\ [2mm]
+%[8?] Struchtrup pp. 46-47\\ [2mm]
+%[9] Richard L. Burden and J. Douglas Faires. \textit{Numerical Analysis Ninth Edition}\\ [2mm]
+%[10] Sydney Chapman and T.G. Cowling. \textit{The Mathematical Theory of Non-Uniform Gases.} 1953\\ [2mm]
+%[11] Stéphane Brull and Jacques Schneider \textit{On the Ellipsoidal Statistical Model for Polyatomic Gases.} Springer-Verlag 2009\\ [2mm]
+%[12] Y. Zheng and H. Struchtrup, \textit{Burnett equations for the ellipsoidal statistical BGK model}\\ [2mm]
+%[13] Andries, \textit{Numerical comparison between the Boltzmann and ES-BGK models for rarefied gases}\\ [2mm]
+%[14] LeVeque \textit{Finit-Volume Methods for Hyperbolic Problems} Cambridge 2004\\ [2mm]
+%[15] Kogan, Rarefied Gas Dynamics, Section 2.4\\ [2mm]
+%[16] Liepmann, H.W. and Roshko, A. (1957). \textit{Elements of Gasdynamics}, Wiley, New York
+%
+
+\bibliographystyle{plain}
+\bibliography{reference}
+\end{document}

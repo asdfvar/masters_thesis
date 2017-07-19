@@ -1,0 +1,327 @@
+The CLAWPACK software was used to carry out simulations of the one-dimensional heat transfer problem and the normal shock wave problem with the BGK and ES-BGK models.
+
+In the first section, we solve the homogeneous transport equation. This simulation was used to verify the first and second order accuracy of the first and second order FV methods respectively. We start with a Gaussian profile and allow the profile to move with time. The $L_1$ error is computed against the exact solution. Computation time for the first and second order methods were compared.
+
+In the heat transfer problem, we simulate process of exchange of energy in Nitrogen gas enclosed between two infinitely long parallel plates. Each of the plates are uniformly heated at constant temperatures. The initial state of the gas is uniform everywhere between the plates. Therefore, there are no changes in the state of the gas in the directions parallel to the plates. We show that our numerical method conserves mass velocity discretizations. Momentum of the solution was shown to be near zero when the solution approaches steady state.
+
+In the shock wave problem, we simulate motion of Argon gas in an open system. The gas is allowed to flow into the system at a constant rate upstream of the gas. The gas is then allowed to leave the system downstream at a constant rate determined by the Rankine-Hugoniot relations \cite{roshko} and the upstream conditions. Somewhere between the upstream and downstream boundaries, a shock wave is formed. We compute numerical solutions to the shock wave problem computed using the BGK and the ES-BGk models and and compare the numerical results to the experimental results of Alsmeyer's \cite{alsmeyer} Specifically, we compare the density and temperature profiles and the reciprocal shock thickness which we will later. Mass flow rate, momentum and energy results are shown to be conserved. Order of convergence was obtained for both the first order and second order simulations.
+
+%and the shock-wave with a constant steady upstream and downstream flow. In our first observation we will look at the steady state results of the heat transfer between two infinitely long parallel plates. Then we will observe the results of the simulated shock-wave simulation with Mach numbers ranging from $1.20$ to $9.00$ where the reciprocal shock thickness are compared to Alsmeyer's \cite{alsmeyer} results. In addition, mass, momentum and energy results are shown to be conserved. First and second order FV methods are shown to converge with their respective orders of convergence. An absolute convergence to a known quantity is observed for the homogeneous case and the relative convergence is analyzed for the whole solution.
+%
+%\begin{equation}
+%\label{f2Part}
+%\partial_t f_2 + u_1 \partial_x f_2 = \nu \left( \int_{\mathbb{R}^2} u_2^2 f_0 du_2 du_3 - f_2 \right)
+%\end{equation}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Homogeneous Transport Experiment}
+In this section we will verify the accuracy of the implemented temporal and spatial discretizations of the kinetic equations by solving the homogeneous transport part and comparing the results to an exact solution. Consider the one dimensional homogeneous transport equation
+%
+\begin{equation}
+\label{transport}
+\partial_{t} f + u\, \partial_{x} f = 0.
+\end{equation}
+%
+An exact solution to (\ref{transport}) is given by $f(x,t) = \mathring{f}(x - u t)$, where $\mathring{f}(\xi)$ is an arbitrary differentiable function of variable $\xi$. Equation \ref{transport} is solved numerically on the interval $x \in [-20,20]$ with the initial data given by the Gaussian profile
+%
+\begin{equation}
+\mathring{f}(x)= \frac{1}{m \sqrt{\pi}}\exp \left( \frac{-(x-x_{0})^2}{m^2} \right),
+\end{equation}
+%
+where the value of the normalizing constant $m=2.04$ is selected to guarantee that the profile is well contained in the domain. The value of the velocity $u$ is about $1000$ m/s which is on the same order of magnitude as the velocity values used in simulations of the model kinetic equations. Numerical solutions are computed for up to time $t = 0.008$ seconds. In Table~\ref{ErrorConvergence} the values of the $L_{1}$ and $L_{\infty}$ relative errors are presented for different numbers of spatial cells, $N$. Here $\|e\|_{L_{1}}$ and $\| e \|_{L_{\infty}}$ denote the values of $L_{1}$ and $L_{\infty}$ errors with respect to the exact solution, correspondingly, and $\alpha$ is the estimated order of convergence. The corresponding CPU time is shown in Figure~\ref{fig:CPU_time}
+%
+\begin{table}[!htb]
+\centering
+\begin{tabular*}{0.75\textwidth}{| c | c   c   c   c | c   c   c   c |} 
+\cline{1-9}
+& \multicolumn{4}{| c |}{First order} & \multicolumn{4}{| c |}{Second order}\\ 
+%\cline{1-9}
+$N$ & $\|e\|_{L_{1}}$ & $\alpha$ & $\| e \|_{L_{\infty}}$ & $\alpha$ & $\|e\|_{L_{1}}$ & $\alpha$ &  $\| e \|_{L_{\infty}}$ & $\alpha$\\ \cline{1-9}
+%100 & 1.3E-1 & .92 & 1.3E-1 & .88 & 8.305E-3 & 2.3 & 1.4E-2 & 2.4\\
+200 & 6.9E-2 & .94 & 7.1E-2 & .94 & 1.754E-3 & 2.1 & 2.7E-2 & 5.8\\
+%300 & 4.7E-2 & .96 & 4.9E-2 & .96 & 7.45E-4 & 2.0 & 9.8E-4 & 2.6\\
+400 & 3.6E-2 & 1.0 & 3.7E-2 & .97 & 4.12E-4 & 2.1 & 4.7E-4 & 2.7\\
+%500 & 2.9E-2 & .97 & 3.0E-2 & .97 & 2.61E-4 & 2.1 & 2.6E-4 & 2.8\\
+600 & 2.4E-2 & 1.0 & 2.5E-2 & .95 & 1.79E-4 & 2.0 & 1.6E-4 & 3.2\\
+%700 & 2.1E-2 & .98 & 2.1E-2 & .98 & 1.32E-4 & 2.0 & 9.8E-5 & 3.2\\
+800 & 1.8E-2 & 1.0 & 1.9E-2 & .94 & 1.01E-4 & 2.1 & 6.4E-5 & 3.9\\
+1200 & 1.2E-2 &  & 1.3E-2 & & 4.36E-5 &  & 1.3E-5 &\\ \cline{1-9}
+\end{tabular*}
+\vspace*{5mm}
+\caption{\label{ErrorConvergence} Values of $L_{1}$ and $L_{\infty}$ relative errors in the solution to the homogeneous transport equation for different numbers of spatial cells, $N$, and the estimated order of convergence, $\alpha$.}
+\end{table}
+\FloatBarrier
+%
+\begin{figure}[here]
+\centering
+\includegraphics[height=.35\textheight]{second_order/CPU_time.pdf}
+\caption{Comparison of the CPU times for the solution of the transport equation using first order and second order FV schemes.}
+\label{fig:CPU_time}
+\end{figure}
+%
+Table~(\ref{ErrorConvergence}) shows that both $L_1$ and $L_\infty$ errors converge with the expected order for the used finite volume discretization. It appears that the convergence of the $L_\infty$ norm is faster than second order in the case of the second order FV scheme. For high resolutions, it accelerates almost to order four. However, we believe that this is just an artifact specific to the Gaussian profile and we do not expect this to hold for other exact solutions. It is apparent from Table~(\ref{ErrorConvergence}) and Figure~(\ref{fig:CPU_time}) that the second order FV method is significantly closer to the true solution with little difference in computation time. Therefore, in these simulations the second order method is preferable. As it  will be evident further, a similar conclusion holds for the first and second order FV discretization of the full model equations in the case of the normal shock wave problem.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Boundary Conditions}
+The standard approach to the solution of symmetric hyperbolic systems is to specify boundary conditions for incoming characteristic nodes. In our case, the left and right boundary conditions need to be specified for components of $h_{p,i}$ and $g_{p,i}$ that correspond to the incoming velocity nodes $u_{p,i}$.
+%and on the right boundary the conditions have to be specified for components corresponding to negative velocity nodes $u_{p,i}$.
+
+Two types of boundary conditions corresponding to two different flow conditions will be used. The first case arises in the problem of heat transfer where the gas is contained between two infinitely long parallel plates. the fact that the gas is trapped between the plates implies that the total mass of gas leaving the domain must be equal to the gas entering the domain as the result of imposed boundary conditions. The second case corresponds to the problem of the normal shock wave in which the streams of gas through the left and right boundaries are determined from the Rankine-Hugoniot conditions. The incoming gas is determined from the Rankine-Hugoniot conditions. The incoming gas is  modeled by a Maxwellian equilibrium distribution. In both cases, the boundary conditions are equivalent to prescribing the Dirichlet data for components propagating inside the domain. Specifically, in the case of the normal shock wave,
+%
+\begin{equation}
+\label{bc01}
+f(t,x,u)\Big|_{{x=x_{L}} {u\ge 0}} = f^{L}_{M}(u), \quad
+f(t,x,u)\Big|_{{x=x_{R}} {u\le 0}} = f^{R}_{M}(u),
+\end{equation}
+%
+where $f^{L}_{M}(u)=f^{L}_{M}(u;n_{L},\bar{u}_{L},T_{L})$ and $f^{R}_{M}(u)=f^{R}_{M}(u;n_{R},\bar{u}_{R},T_{R})$ are known Maxwellian distributions and $x_{L}$ and $x_{R}$ are the left and right boundary points, respectively.
+
+The CLAWPACK software requires that the boundary conditions be prescribed at the beginning of each time step. The boundary data are treated as additional nodal values extending the domain. These additional nodes are referred to as ghost cells \cite{clawly}. The indexes for the cells on the left boundary are indexed from negative values to zero. For $N$ nodal points of the interior of the domain, indexes of the cells at the right boundary are indexed at and above $N+1$.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Heat Transfer Boundary Conditions}
+The boundary conditions that arise in the problem of heat transfer are designed to model the reflection of particles off a solid wall. As before, in these boundary conditions we specify the values of the incoming components. In this case, these values depend non-linearly on the values of outgoing components. The gas that is entering the domain from the wall is distributed according to the Maxwellian equilibrium distribution. The temperature of the incoming gas and its bulk velocity correspond to the temperature and the velocity of the wall. The density $n_w$ of the incoming gas is determined from the condition of zero total mass flux across the wall:
+%
+\begin{equation}
+\int_{\hat{n} \cdot \vec{u} > 0} \vec{u} \cdot \hat{n} f(t, \vec{x}, \vec{u}) du + \int_{\hat{n} \cdot \vec{u} < 0} \vec{u} \cdot \hat{n} f^{w}_{M} du = 0,
+\end{equation}
+%
+where $\hat{n}$ is the unit normal to the boundary pointing outside and $f^{w}_{M}=f^{w}_{M}(u;n_{w},\bar{u}_{w},T_{w})$ is the Maxwellian equilibrium distribution corresponding to the temperature of the wall $T_{w}$, zero bulk velocity (we assume that the wall is not moving) $\vec{\bar{u}}=0$, and density $n_w$. Substituting into the above expression and solving for $n_{w}$ we obtain
+%
+\begin{equation*}
+%\label{boundary}
+n_{w}(t, \vec{x})=\sqrt{ \frac{2 \pi}{R T_{w}}} \int_{\hat{n} \cdot \vec{u} > 0} \vec{u} \cdot \hat{n} f(t, \vec{x}, \vec{u}) du. 
+\end{equation*}
+%
+Solving for the number density at the left and right walls we have, correspondingly,
+%
+\begin{equation*}
+n_{wl}(t, \vec{x}) = \sqrt{ \frac{2 \pi}{R T_{wl}}} \int_{0}^{\infty} u h(x,u_1,t) du_1
+\end{equation*}
+%
+\begin{equation*}
+n_{wr}(t, \vec{x}) = \sqrt{ \frac{2 \pi}{R T_{wr}}} \int_{-\infty}^{0} u h(x,u_1,t) du_1
+\end{equation*}
+%
+Where $n_{wl}$ and $n_{wr}$ are the densities and $T_{wl}$ and $T_{wr}$ are the temperatures of the left and right walls respectively.
+%
+\begin{equation*}
+h(x,u_1,t) = \int_{\mathbb{R}^2} f \, du_2 \, du_3
+\end{equation*}
+%
+is the function defined in Chapter 1 for the one dimensional reduction.
+%Expanding the left side we get
+%
+%$$\int_{\vec{n} \cdot \vec{u} > 0} \vec{u} \cdot \vec{n} f(t, \vec{x}, \vec{u}) du = \int_{0}^{\infty} \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} u f(t, \vec{x}, \vec{u}) du_2 du_3 du$$
+%
+%on the left wall and
+%
+%$$\int_{\vec{n} \cdot \vec{u} > 0} \vec{u} \cdot \vec{n} f(t, \vec{x}, \vec{u}) du = \int_{-\infty}^{0} \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} u f(t, \vec{x}, \vec{u}) du_2 du_3 du$$
+%on the right wall.
+%
+%From the right side simplifies to
+%
+%\begin{equation}
+%\label{pos_vel}
+%\int_{\vec{n} \cdot \vec{u} > 0} \vec{u} \cdot \vec{n} f(t, \vec{x}, \vec{u}) du = \int_{0}^{\infty} u f_1(t,x,u) du
+%\end{equation}
+%
+%for the left wall and
+%
+%\begin{equation}
+%\label{neg_vel}
+%\int_{\vec{n} \cdot \vec{u} > 0} \vec{u} \cdot \vec{n} f(t, \vec{x}, \vec{u}) du = \int_{-\infty}^{0} u f_1(t,x,u) du
+%\end{equation}
+%
+%on the right wall. Then combining (\ref{pos_vel}) and (\ref{neg_vel}) into (\ref{boundary}) we get
+%
+%\begin{equation}
+%\int_{0}^{\infty} u f_1(t,x,u) du = n_{wl}(t, \vec{x}) \sqrt{ \frac{R T_{wl}}{2 \pi}} \nonumber
+%\end{equation}
+%
+%\begin{equation}
+%\int_{-\infty}^{0} u f_1(t,x,u) du = n_{wr}(t, \vec{x}) \sqrt{ \frac{R T_{wr}}{2 \pi}}
+%\end{equation}
+%
+%for the density at the left and right wall respectively.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Shock Wave Boundary Conditions}
+In the shock wave simulations, the boundary conditions are set so that the mass flow rate, momentum flow rate and energy flow rate downstream of the shock wave are equal to the mass flow rate, momentum flow rate and energy flow rate upstream of the shock wave. The streams of the gas through the boundaries are each modeled by a Maxwellian equilibrium distribution. In all simulations, Argon gas was modeled. The temperature and density of the gas at the upstream boundary was $300$ K and $1.0686$E${-}4$ kg/m${}^{3}$, respectively. Flow velocity, temperature and density at the boundary downstream of the shock wave are calculated from the Rankine-Hugoniot relations \cite{roshko}
+%
+\begin{align*}
+v &= M \sqrt{\gamma R T}\\
+\rho^* &= \rho \frac{(\gamma+1) M^2}{(\gamma-1) M^2+2}\\
+T^* &= T \frac{(2 \gamma M^2-(\gamma-1)) ((\gamma-1) M^2+2)}{(\gamma+1)^2 M^2}\\
+M^* &= \sqrt{\frac{(\gamma-1) M^2+2}{2 \gamma M^2-(\gamma-1)}}\\
+u^* &= M^* \sqrt{\gamma R T^*}.
+\end{align*}
+%
+Where $\rho,v,T,M$ and $\gamma$ denotes the mass density, bulk velocity, temperature, Mach number and specific heat ratio $(\frac{C_p}{C_v})$ respectively. The terms with the $*$ are the downstream parameters.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Heat Transfer Between Parallel Plates}
+Simulations of the transfer of molecules held between two infinitely long parallel plates were produced. The initial state of the gas is a Maxwellian held uniformly constant through the spatial domain at a temperature of $300K$ and initial density of $1.0$E$-4$ kg/m${}^3$ with zero bulk velocity while the wall temperatures are held constant at $1000K$ at the left boundary and $300K$ at the right boundary. The gas is then allowed to come to steady state where the density and temperature can be seen in figure (\ref{figX1}).
+%
+\begin{figure}[h]
+\centering
+  \begin{tabular}{cc}
+  \includegraphics[height=.20\textheight]{Heat/HT10_3_denstemp.pdf}&
+  \includegraphics[height=.20\textheight]{Heat/HT10_3_bvel.pdf}\\
+  {\small (a) }& {\small (b) } 
+  \end{tabular}
+  \caption{\label{figX1} (a) Density and temperature profile and (b) normalized bulk velocity of the steady state solution in heat transfer between two parallel plates. Temperature jumps are observed in the solution near the boundaries.}
+\end{figure}
+\FloatBarrier
+%
+%\textit{Bird pp. 276 shows a steady state solution of the heat transfer problem from one end 2000K and the other 300K}
+%
+Table (\ref{ErrorMass}) shows the mass conservation with various choices of discretization parameters.
+%
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|c|cccc|}
+\hline
+&\multicolumn{4}{c|}{M} \\
+N & 6 & 8 & 12 & 16\\ \hline
+10 & 5.30E-07 & 1.83E-09 & 1.26E-09 & 2.16E-10\\
+20 & 5.33E-07 & 1.34E-09 & 7.81E-10 & 4.33E-10\\
+40 & 5.33E-07 & 2.53E-09 & 7.89E-10 & 6.15E-10\\
+80 & 5.34E-07 & 3.18E-09 & 2.73E-10 & 1.19E-09\\
+100 & 5.33E-07 & 2.54E-09 &  5.10E-10 & 1.14E-10\\ \hline
+\end{tabular}
+\vspace*{5mm}
+\caption{\label{ErrorMass} Relative errors of the mass conservation for different number of 
+spatial cells, $N$, and velocity cells, $M$.}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The Normal Shockwave}
+Simulations of the shock wave where carried out. At sufficient distance from the shock wave, the changes in the state of the gas are negligible. This allows us to select a domain of finite length. The Rankine-Hugoniot relations \cite{roshko} were used to determine the boundary conditions. The steady state solution was observed with upstream Mach numbers ranging from $1.20$ to $9.00$. Density and temperature profiles were observed and the reciprocal shock thickness profile was produced for the BGK and ES-BGK models. The results were compared to the experimental measurements of Alsmeyer \cite{alsmeyer}.
+
+The reciprocal shock thickness is the dimensionless factor computed from dividing the mean free path $\lambda_{Ar}$ by the shock thickness $\delta$. The shock thickness is the inverse of the maximum slope of the shock front which is computed from the five point midpoint derivative formula with order of accuracy $O(\Delta x^4)$. We get the reciprocal shock thickness to be
+%
+\begin{equation}
+\label{recipThick}
+\frac{\lambda_{Ar}}{\delta} = \max_x \frac{\partial \rho(x)}{\partial x} \frac{\lambda_{Ar}}{\rho_2 - \rho_1}
+\end{equation}
+%
+where $\rho$ is the density. The mean free path $\lambda_{Ar}$ of the upstream flow is the result of the mean collision distance between molecules entering the domain before the shock front. From Alsmeyer \cite{alsmeyer}
+%
+\begin{equation}
+\lambda_{Ar} = \frac{16}{5} \sqrt{\frac{\gamma}{2 \pi}} \frac{\mu}{\rho a}
+\end{equation}
+%
+where the up-stream parameters $\gamma = (C_p/C_v)$ is the specific heat ratio, $\mu$ is the viscosity, $\rho$ is the density and $a$ is the speed of sound.
+%
+\begin{table}[!htb]
+\centering
+\begin{tabular*}{0.75\textwidth}{| c | c   c | c c |}
+\cline{1-5}
+& \multicolumn{2}{| c |}{First order} & \multicolumn{2}{| c |}{Second order}\\ 
+$\Delta x$ & $\|e\|_{L_{1}}$ & $\alpha$ & $\|e\|_{L_{1}}$ & $\alpha$ \\ \cline{1-5}
+%8.00E-4 & 1.01E-2 & 1.07 & 1.00E-3 & 1.31E-3 & 2.24\\
+%4.00E-4 & 4.84E-3 & 1.29 & 5.00E-4 & 2.77E-4 & 2.32\\
+%2.67E-4 & 2.87E-3 & 1.45 & 2.50E-4 & 5.52E-5 & 2.42\\
+%2.00E-4 & 1.89E-3 & 1.72 & 1.67E-4 & 2.07E-5 & 2.57\\
+%1.45E-4 & 1.09E-3 & & 1.25E-4 & 9.89E-6 &\\ \cline{1-6}
+2.5E-3 & 5.08E-2 & 1.053 & 1.77E-2 & 1.95\\
+2.0E-3 & 4.02E-2 & 1.053 & 1.15E-2 & 2.06\\
+1.67E-3 & 3.32E-2 & 1.052 & 7.88E-3 & 2.15\\
+1.43E-3 & 2.82E-2 & 1.052 & 5.65E-3 & 2.23\\
+1.25E-3 & 2.45E-2 & & 4.20E-3 & \\ \cline{1-5}
+\end{tabular*}
+\vspace*{5mm}
+\caption{\label{ErrorShock} $L_1$ relative errors of the density profiles of first and second order FV methods applied to the ES-BGK solution to the Mach 3.38 shock wave. Different spatial step sizes, $\Delta x$, were used and the estimated order of convergence, $\alpha$, was determined.} % L1 errors were compared to the 2nd order solution with 1800 cells
+\end{table}
+%
+\begin{figure}[!htb]
+\label{Converge}
+\centering
+\includegraphics[angle=0,width=90mm]{shock/Converge.pdf}
+\caption{$L_1$ relative error of the first order and second order ES-BGK method of the Mach $3.38$ shock wave showing the comparison to $1800$ cells on a $0.1$m domain.}
+\end{figure}
+\FloatBarrier
+%
+\begin{figure}[!htb]
+\centering
+\includegraphics[height=.30\textheight]{shock/Rthick.pdf}
+\caption{\label{Rthick} Reciprocal shock thickness profile of the BGK model and the ES-BGK model.}
+\end{figure}
+\FloatBarrier
+%
+%We wish to observe the error in our convergence for our second order FV method. To do this, let's consider an initial value of $Q_i^0 = \tilde{Q}_i^0$ where $Q_i$ is exact through all time and $\tilde{Q}_i$ is the approximate value through time. Since we have $Q_i^0$ and $\tilde{Q}_i^0$ are equal at some initial time $t_0$, let's observe the difference after a time step of $\Delta t$ and consider the case where our wave speed $u \ge 0$ since the procedure for negative moving waves will the same just in the other direction. We observe the difference of the exact value from the approximate value at the center of the cell at $x_i$ with flux coming from the left of the cell wall:
+%\begin{align}
+%&Q_i^1 - \tilde{Q}_i^1\\
+%&= \left(\int_{x_{i-1}+ \frac{\Delta x}{2} - \Delta t u}^{x_{i-1} + \frac{\Delta x}{2}} \left( q(x_{i-1}) - \tilde{q}_{i-1}(x_{i-1}) \right) dx + \int_{x_i+ \frac{\Delta x}{2} - \Delta t u}^{x_i + \frac{\Delta x}{2}} \left( q(x_i) - \tilde{q}_i(x_i) \right) dx \right) /\Delta x\\
+%&= \left(\int_{x_{i-1}+ \frac{\Delta x}{2} - \Delta t u}^{x_{i-1} + \frac{\Delta x}{2}} \left(\frac{q''(x_{i-1})}{2} (x - x_{i-1})^2 + O(\Delta x^3) \right) dx \right) /\Delta x +\\
+%& \left( \int_{x_i+ \frac{\Delta x}{2} - \Delta t u}^{x_i + \frac{\Delta x}{2}} (\frac{q''(x_{i-1})}{2} (x - x_{i-1})^2 + O(\Delta x^3)) dx \right) /\Delta x\\
+%&= \frac{q''(x_{i-1}) + q''(x_i)}{2} \frac{1}{3 \Delta x} \left(\frac{\Delta x^3}{8} - \left(\frac{\Delta x}{2} - \Delta t u \right)^3 \right) + O(\Delta x^3)
+%\end{align}
+%By the CFL condition, we have $\Delta t u = c \Delta x$ for some constant $c < 1$ and by the mean value theorem we can find a $\zeta \in (x_{i-1},x_i)$ so that we get an error of
+%\begin{equation}
+%\end{equation}
+
+Figure (\ref{figShock}) compares our results with Alsmeyer's with Mach numbers at $1.55$, $1.76$, $2.05$, $2.31$, $3.38$, $3.80$, $6.50$ and $9.00$ for the reciprocal thickness and density and temperature profiles at Mach numbers $1.55$, $3.80$ and $9.00$. In this case, the solutions generated by CLAWPACK were done with both ES-BGK and BGK equations.
+%
+\begin{figure}[htb]
+  \begin{tabular}{cc}
+  \includegraphics[height=.23\textheight]{shock/nm155.pdf}&
+  \includegraphics[height=.23\textheight]{shock/nm380.pdf}\\
+  {\small (a) }& {\small (b) }\\
+  \includegraphics[height=.23\textheight]{shock/nm900.pdf}& 
+  \includegraphics[height=.23\textheight]{shock/ReciprocalShock.pdf}\\
+  {\small (c) }& {\small (d) }\\
+  \end{tabular}
+  \caption{\label{figShock} Density and temperature profiles of the normal shock waves solution obtained by the BGK and ES-BGK models. Figure (a) shows the solution for Mach number 1.55, (b) 3.8 and (c) 9.0. Experimentally determined density profiles of Alsmeyer \cite{alsmeyer} are shown for comparison. In Figure (d) reciprocal shock thickness for BGK, ES-BGK by Alsmeyer are shown.}
+\end{figure}
+%
+
+Processing time for first order and second order solutions to Mach $1.20$ and $3.38$ are compared in table \ref{TimeEvolution} for a shock wave time lapse of $0.0001$ seconds. One can see that to get the same level of accuracy, it will take significantly more processing time for a first order accurate method than the second order method. The second order method for the shock wave simulation provides more significant digits with not much more processing time. Figure (\ref{figEFlux}) illustrates the energy conservation of the kinetic models at various Mach numbers.
+%
+\begin{table}[!htb]
+\centering
+\begin{tabular*}{0.75\textwidth}{|c|c|c|c|c|} \cline{1-5}
+& \multicolumn{2}{| c |}{Mach 1.20} & \multicolumn{2}{| c |}{Mach 3.38}\\ \cline{1-5}
+$N$ & First order & Second order & First order & Second order \\ \cline{1-5}
+200 & 7.95E0 & 2.05E1 & 8.60E0 & 2.17E1\\
+400 & 3.86E1 & 9.26E1 & 4.40E0 & 1.34E2\\
+600 & 9.45E1 & 2.33E2 & 1.11E1 & 2.84E2\\
+800 & 1.81E2 & 3.82E2 & 2.43E2 & 5.59E2\\
+1100 & 3.26E2 & 7.98E2 & 3.98E2 & 8.18E2\\
+1600 & 8.61E2 & 1.67E3 & 1.022E3 & 1.73E3\\
+2200 & 1.54E3 & 2.85E3 & 1.46E3 & 2.96E3\\ \cline{1-5}
+\end{tabular*}
+\vspace*{5mm}
+\caption{\label{TimeEvolution} Processing time in seconds for Mach numbers $1.20$ and $3.38$ with $16$ velocity nodes and $8$ Gaussian nodes for a time lapse of $0.0001$ seconds in time where $N$ is the number of cells in $x$.}
+\end{table}
+%
+\begin{figure}[htb]
+\centering
+\begin{tabular}{cc}
+\includegraphics[height=.25\textheight]{shock/enf_ES.pdf} & 
+\includegraphics[height=.25\textheight]{shock/enf_BGK.pdf}\\ 
+{\small (a) }& {\small (b) }\\
+\end{tabular}
+\caption{\label{figEFlux} Energy flux in (a) ES-BGK and (b) BGK shock wave solution for different Mach numbers.}
+\end{figure}
+\FloatBarrier
